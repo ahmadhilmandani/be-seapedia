@@ -5,8 +5,7 @@ const express = require("express");
 
 const router = express.Router();
 
-// router.post('/sign-in', )
+router.post('/sign-in', controller.signIn)
 router.post('/sign-up', controller.signUp)
-
 
 module.exports = router;

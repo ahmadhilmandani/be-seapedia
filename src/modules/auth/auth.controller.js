@@ -2,7 +2,7 @@ const service = require('./auth.service.js')
 
 exports.signUp = (req, res, next) => {
   try {
-  
+
     const payload = req.body
 
     if (!payload.name) {
@@ -21,11 +21,38 @@ exports.signUp = (req, res, next) => {
     const result = service.signUp(payload)
 
     res.status(201).json(result);
-  
+
   } catch (err) {
 
     next(err);
-  
+
   }
 }
 
+
+
+exports.signIn = async (req, res, next) => {
+  try {
+
+    const payload = req.body
+
+    if (!payload.identifier) {
+      throw new Error('Username, email, and password is required')
+    }
+
+    const result = await service.signIn(payload)
+
+    res.status(200).json({
+      'success': true,
+      'msg': 'ok!',
+      'user': {
+        'token': result
+      }
+    });
+
+  } catch (err) {
+
+    next(err)
+
+  }
+}

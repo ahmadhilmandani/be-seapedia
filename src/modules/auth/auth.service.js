@@ -25,3 +25,24 @@ exports.signUp = async (payload) => {
   }
 
 }
+
+
+
+exports.signIn = async (payload) => {
+  const conn = await pool.getConnection()
+
+  try {
+    await conn.beginTransaction()
+
+    const res = repo.signIn(conn, payload)
+
+    return res
+
+  } catch (err) {
+
+    throw err
+
+  } finally {
+    conn.release();
+  }
+}
