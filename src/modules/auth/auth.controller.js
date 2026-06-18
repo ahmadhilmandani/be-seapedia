@@ -56,3 +56,18 @@ exports.signIn = async (req, res, next) => {
 
   }
 }
+
+exports.getUserInfo = async (req, res, next) => {
+
+  try {
+
+    return res
+      .status(200)
+      .json(req.userInfo)
+
+  } catch (err) {
+
+    next(err)
+
+  }
+} 
