@@ -2,6 +2,7 @@ const express = require('express');
 const pool = require('./src/config/db');
 const cors = require('cors')
 const authRoutes = require('./src/modules/auth/auth.routes.js')
+const err = require('./src/middleware/error.middleware.js')
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,9 @@ app.use(express.urlencoded({ extended: true }))
 const PORT = process.env.PORT || 3000;
 
 app.use('/api/auth', authRoutes)
+
+
+app.use(err.errorMiddleware)
 
 app.server = app.listen(PORT, () => {
   console.log(`
