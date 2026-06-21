@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 exports.signUp = async (pool, data) => {
   const name = data.name
-  const username = data.usernmae
+  const username = data.username
   const email = data.email
   const password = await bcrypt.hash(
     data.password,
@@ -52,7 +52,7 @@ exports.signUp = async (pool, data) => {
 
 
   return {
-    'userId': res.insertedId
+    'userId': res.insertId
   }
 }
 

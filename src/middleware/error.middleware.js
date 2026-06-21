@@ -1,6 +1,7 @@
 exports.errorMiddleware = (err, req, res, next) => {
   return res.status(500).json({
       success: false,
-      msg: err.message
+      msg: err.message,
+      stack: err.stack
     })
 }

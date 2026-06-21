@@ -1,14 +1,16 @@
 const service = require('./auth.service.js')
 
-exports.signUp = (req, res, next) => {
+exports.signUp = async (req, res, next) => {
   try {
 
     const payload = req.body
+    const roles = payload.roles
 
+    // console.log('roles')
     if (!payload.name) {
       throw new Error('Name is required')
     }
-    else if (!payload.usernmae) {
+    else if (!payload.username) {
       throw new Error('Username is required')
     }
     else if (!payload.email) {
@@ -17,8 +19,32 @@ exports.signUp = (req, res, next) => {
     else if (!payload.password) {
       throw new Error('Password is required')
     }
+    else if (roles.length == 0) {
+      throw new Error('Select Minimal 1 Role')
+    }
 
-    const result = service.signUp(payload)
+    roles.forEach(row => {
+      if (!row.street_name.trim()) {
+        throw new Error('Street Name is required')
+      }
+      if (!row.house_number.trim()) {
+        throw new Error('House Number is required')
+      }
+      if (!row.subdistrict.trim()) {
+        throw new Error('Subdistrict is required')
+      }
+      if (!row.regency.trim()) {
+        throw new Error('Regency is required')
+      }
+      if (!row.province.trim()) {
+        throw new Error('Province is required')
+      }
+      if (!row.postal_code.trim()) {
+        throw new Error('Postal Code is required')
+      }
+    });
+
+    const result = await service.signUp(payload)
 
     res.status(201).json(result);
 
@@ -56,6 +82,8 @@ exports.signIn = async (req, res, next) => {
 
   }
 }
+
+
 
 exports.getUserInfo = async (req, res, next) => {
 
