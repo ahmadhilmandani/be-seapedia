@@ -1,4 +1,6 @@
 const service = require('./auth.service.js')
+const jwt = require('jsonwebtoken')
+
 
 exports.signUp = async (req, res, next) => {
   try {
@@ -57,6 +59,7 @@ exports.signUp = async (req, res, next) => {
 
 
 exports.signIn = async (req, res, next) => {
+
   try {
 
     const payload = req.body
@@ -72,6 +75,52 @@ exports.signIn = async (req, res, next) => {
       'msg': 'ok!',
       'user': {
         'token': `${result}`
+      }
+    });
+
+  } catch (err) {
+
+    next(err)
+
+  }
+}
+
+
+
+exports.setActiveRole = async (req, res, next) => {
+  try {
+
+    const payload = req.body
+    const userRoles = req.userInfo.roles
+    let isHasRole = false;
+
+    if (!payload.role) {
+      throw new Error('Role is required!')
+    }
+
+    userRoles.forEach((row) => {
+      if (row.role_id == payload.role) {
+        req.userInfo.activeRole = payload.role
+        isHasRole = true
+      }
+    })
+
+    if (!isHasRole) {
+      throw new Error(`User doesn't have that role!`)
+    }
+
+    const tokenJwt = jwt.sign(
+      req.userInfo,
+      process.env.JWT_KEY,
+      { expiresIn: "7d" }
+    )
+
+    res.status(200).json({
+      'success': true,
+      'msg': 'ok!',
+      'user': {
+        'data': req.userInfo,
+        'token': tokenJwt
       }
     });
 

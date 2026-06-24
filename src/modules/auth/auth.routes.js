@@ -9,5 +9,6 @@ const router = express.Router();
 router.post('/sign-in', controller.signIn)
 router.post('/sign-up', controller.signUp)
 router.get('/get-user-info', checkToken, controller.getUserInfo)
+router.post('/set-active-role', checkToken, controller.setActiveRole)
 
 module.exports = router;
