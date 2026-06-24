@@ -23,6 +23,15 @@ exports.checkToken = (req, res, next) => {
 
     next()
   } catch (err) {
+    if (err.name === 'TokenExpiredError') {
+      err.statusCode = 401
+      err.message = 'Token Expired!'
+    }
+
+    if (err.name === 'JsonWebTokenError') {
+      err.statusCode = 401
+      err.message = 'Invalid Token!'
+    }
     next(err)
   }
 

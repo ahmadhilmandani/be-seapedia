@@ -7,7 +7,6 @@ const repoAddress = require('../addresses/addresses.repository.js')
 
 exports.signUp = async (payload) => {
   const conn = await pool.getConnection();
-  console.log('payload')
 
   try {
 
@@ -18,11 +17,11 @@ exports.signUp = async (payload) => {
         conn,
         payload
       );
-    console.log('payload')
+
 
     for (const row of payload.roles) {
 
-      console.log(userRes.userId)
+
       const userRoleRes =
         await repoUserRole.create(
           conn,
@@ -41,18 +40,6 @@ exports.signUp = async (payload) => {
             created_by: userRes.userId
           }
         );
-      // console.log(userRoleRes.userRoleId)
-      console.log(        {
-          user_role_id: userRoleRes.userRoleId,
-          street_name: row.street_name,
-          house_number: row.house_number,
-          subdistrict: row.subdistrict,
-          regency: row.regency,
-          province: row.province,
-          postal_code: row.postal_code,
-          additional_note: row.additional_note,
-          created_by: userRes.userId
-        })
 
       await repoAddress.create(
         conn,

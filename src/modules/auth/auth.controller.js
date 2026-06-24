@@ -6,7 +6,6 @@ exports.signUp = async (req, res, next) => {
     const payload = req.body
     const roles = payload.roles
 
-    // console.log('roles')
     if (!payload.name) {
       throw new Error('Name is required')
     }
@@ -62,7 +61,7 @@ exports.signIn = async (req, res, next) => {
 
     const payload = req.body
 
-    if (!payload.identifier) {
+    if (!payload.identifier || !payload.password) {
       throw new Error('Username, email, and password is required')
     }
 
@@ -72,7 +71,7 @@ exports.signIn = async (req, res, next) => {
       'success': true,
       'msg': 'ok!',
       'user': {
-        'token': result
+        'token': `${result}`
       }
     });
 

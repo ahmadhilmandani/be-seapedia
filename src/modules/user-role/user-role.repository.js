@@ -24,7 +24,6 @@ exports.create = async (
     )
   `;
 
-  console.log(data)
 
   const [result] =
     await conn.execute(
