@@ -43,6 +43,9 @@ exports.signUp = async (req, res, next) => {
       if (!row.postal_code.trim()) {
         throw new Error('Postal Code is required')
       }
+      if (row.is_default == null || row.is_default == undefined) {
+        throw new Error('Provide information either this role is a default role or not!')
+      }
     });
 
     const result = await service.signUp(payload)

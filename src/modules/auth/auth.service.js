@@ -37,7 +37,8 @@ exports.signUp = async (payload) => {
                   : row.role == 3
                     ? 'Driver'
                     : 'Admin',
-            created_by: userRes.userId
+            is_default: row.is_default,
+            created_by: userRes.userId,
           }
         );
 

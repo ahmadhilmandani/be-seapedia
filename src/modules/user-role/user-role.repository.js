@@ -11,10 +11,12 @@ exports.create = async (
       user_name,
       role_name,
       created_by,
+      is_default,
       is_delete
     )
     VALUES
     (
+      ?,
       ?,
       ?,
       ?,
@@ -33,7 +35,8 @@ exports.create = async (
         data.role_id,
         data.user_name,
         data.role_name,
-        data.created_by
+        data.created_by,
+        data.is_default
       ]
     );
 
@@ -56,10 +59,12 @@ exports.createBulk = async (
       user_name,
       role_name,
       created_by,
+      is_default,
       is_delete
     )
     VALUES
     (
+      ?,
       ?,
       ?,
       ?,
@@ -90,7 +95,8 @@ exports.findAll = async (conn) => {
       user_id,
       role_id,
       user_name,
-      role_name
+      role_name,
+      is_default
     FROM
       user_role
     WHERE
@@ -153,6 +159,7 @@ exports.update = async (
       role_id = ?,
       user_name = ?,
       role_name = ?,
+      is_default = ?,
       updated_at = NOW(),
       updated_by = ?
     WHERE
@@ -168,6 +175,7 @@ exports.update = async (
       data.role_id,
       data.user_name,
       data.role_name,
+      data.is_default,
       updatedBy,
       id
     ]

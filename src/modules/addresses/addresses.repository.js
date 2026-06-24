@@ -70,7 +70,8 @@ exports.findAll = async (conn) => {
       a.postal_code,
       a.additional_note,
       ur.user_name,
-      ur.role_name
+      ur.role_name,
+      ur.is_default
     FROM
       addresses a
     LEFT JOIN

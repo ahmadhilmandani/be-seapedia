@@ -12,8 +12,7 @@ exports.create = async (payload, userId) => {
     const result =
       await repo.create(
         conn,
-        payload,
-        userId
+        payload
       );
 
     await conn.commit();

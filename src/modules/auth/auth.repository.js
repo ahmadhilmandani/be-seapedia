@@ -69,7 +69,8 @@ exports.signIn = async (pool, data) => {
         u.password,
         ur.id AS user_role_id,
         ur.role_id,
-        ur.role_name
+        ur.role_name,
+        ur.is_default
       FROM
         users AS u
       LEFT JOIN
@@ -115,7 +116,8 @@ exports.signIn = async (pool, data) => {
       encodedObjJwt.roles.push({
         'user_role_id': val.user_role_id,
         'role_id': val.role_id,
-        'role_name': val.role_name
+        'role_name': val.role_name,
+        'is_default': val.is_default
       })
     });
 
