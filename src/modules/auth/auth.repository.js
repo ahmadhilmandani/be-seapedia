@@ -121,6 +121,12 @@ exports.signIn = async (pool, data) => {
       })
     });
 
+    const activeRole = rows.find((row) => {
+      return row.is_default == 1
+    })
+
+    encodedObjJwt['activeRole'] = activeRole.role_id
+
     const tokenJwt = jwt.sign(
       encodedObjJwt,
       process.env.JWT_KEY,

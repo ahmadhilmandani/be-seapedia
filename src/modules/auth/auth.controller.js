@@ -112,6 +112,10 @@ exports.setActiveRole = async (req, res, next) => {
       throw new Error(`User doesn't have that role!`)
     }
 
+    delete req.userInfo['iat']
+    
+    delete req.userInfo['exp']
+
     const tokenJwt = jwt.sign(
       req.userInfo,
       process.env.JWT_KEY,
