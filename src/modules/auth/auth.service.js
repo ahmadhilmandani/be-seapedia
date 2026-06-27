@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const repo = require('./auth.repository.js')
 const repoUserRole = require('../user-role/user-role.repository.js')
 const repoAddress = require('../addresses/addresses.repository.js')
+const repoStore = require('../store/store.repository.js')
 
 
 exports.signUp = async (payload) => {
@@ -20,7 +21,6 @@ exports.signUp = async (payload) => {
 
 
     for (const row of payload.roles) {
-
 
       const userRoleRes =
         await repoUserRole.create(
@@ -57,6 +57,19 @@ exports.signUp = async (payload) => {
         }
       );
 
+      if (row.role == 2) {
+        const isStoreNameExists = await repoStore.findByName(conn, row.store_name)
+
+        if (isStoreNameExists) {
+          throw new Error('Store Name is already taken!')
+        }
+
+        await repoStore.create(conn, 
+          row.store_name,
+          userRoleRes.userRoleId,
+          userRes.userId
+        )
+      }
     }
 
     await conn.commit();

@@ -46,6 +46,9 @@ exports.signUp = async (req, res, next) => {
       if (row.is_default == null || row.is_default == undefined) {
         throw new Error('Provide information either this role is a default role or not!')
       }
+      if (row.key == 2 && !row.store_name) {
+        throw new Error('Store Name for Seller Role is Required')
+      }
     });
 
     const result = await service.signUp(payload)
