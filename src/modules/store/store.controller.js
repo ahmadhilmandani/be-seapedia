@@ -34,6 +34,23 @@ exports.show = async (req, res, next) => {
 
 };
 
+exports.findByName = async (req, res, next) => {
+
+  try {
+
+    const data = await service.findByName(req.params.name);
+
+    res.json({
+      success: true,
+      data
+    });
+
+  } catch (err) {
+    next(err);
+  }
+
+};
+
 exports.store = async (req, res, next) => {
 
   try {
@@ -63,7 +80,7 @@ exports.update = async (req, res, next) => {
     const data = await service.update(
       req.params.id,
       req.body,
-      req.user
+      req.userInfo
     );
 
     res.json({

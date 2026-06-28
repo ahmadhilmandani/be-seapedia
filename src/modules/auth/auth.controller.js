@@ -116,7 +116,7 @@ exports.setActiveRole = async (req, res, next) => {
     }
 
     delete req.userInfo['iat']
-    
+
     delete req.userInfo['exp']
 
     const tokenJwt = jwt.sign(

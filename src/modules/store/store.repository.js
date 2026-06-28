@@ -14,10 +14,27 @@ exports.findAll = async (conn) => {
 exports.findById = async (conn, id) => {
 
   const [rows] = await conn.query(`
-        SELECT *
-        FROM stores
-        WHERE id=?
-        AND is_delete=0
+        SELECT
+          s.*,
+          a.street_name,
+          a.house_number,
+          a.subdistrict,
+          a.regency,
+          a.province,
+          a.postal_code,
+          a.additional_note
+        FROM 
+          stores AS s
+        INNER JOIN
+          addresses AS a
+        ON
+          a.user_role_id = s.user_role_id
+        WHERE
+          s.id=?
+        AND
+          s.is_delete=0
+        AND
+          a.is_delete=0
     `, [id]);
 
   return rows[0];
@@ -27,10 +44,27 @@ exports.findById = async (conn, id) => {
 exports.findByName = async (conn, name) => {
 
   const [rows] = await conn.query(`
-        SELECT *
-        FROM stores
-        WHERE name=?
-        AND is_delete=0
+        SELECT
+          s.*,
+          a.street_name,
+          a.house_number,
+          a.subdistrict,
+          a.regency,
+          a.province,
+          a.postal_code,
+          a.additional_note
+        FROM 
+          stores AS s
+        INNER JOIN
+          addresses AS a
+        ON
+          a.user_role_id = s.user_role_id
+        WHERE 
+          s.name = ?
+        AND
+          s.is_delete=0
+        AND
+          a.is_delete=0
     `, [name]);
 
   return rows[0];

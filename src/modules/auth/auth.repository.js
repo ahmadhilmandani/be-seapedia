@@ -112,14 +112,41 @@ exports.signIn = async (pool, data) => {
       'roles': []
     }
 
-    rows.forEach(val => {
+
+    for (const [index, val] of rows.entries()) {
+
       encodedObjJwt.roles.push({
         'user_role_id': val.user_role_id,
         'role_id': val.role_id,
         'role_name': val.role_name,
         'is_default': val.is_default
-      })
-    });
+      });
+
+      if (val.role_id == 2) {
+        const rawSql = `
+          SELECT
+            id AS store_id,
+            name AS store_name
+          FROM
+            stores
+          WHERE
+            user_role_id = ?
+          AND
+            is_delete = 0
+        `;
+
+        const [rowStore] = await pool.execute(rawSql, [val.user_role_id]);
+
+        if (rowStore && rowStore.length > 0) {
+          encodedObjJwt.roles[
+            encodedObjJwt.roles.length - 1
+          ]['store'] = {
+            'id': rowStore[0].store_id,
+            'name': rowStore[0].store_name,
+          };
+        }
+      }
+    }
 
     const activeRole = rows.find((row) => {
       return row.is_default == 1
